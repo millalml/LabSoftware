@@ -44,15 +44,15 @@ use Cake\Routing\Route\DashedRoute;
  * constructor in your `src/Application.php` file to change this behavior.
  *
  */
-Router::defaultRouteClass(DashedRoute::class);
+Router::defaultRouteClass('DashedRoute');
 
-Router::scope('/', function (RouteBuilder $routes) {
+Router::scope('/', function ($routes) {
     /**
      * Here, we are connecting '/' (base path) to a controller called 'Pages',
      * its action called 'display', and we pass a param to select the view file
      * to use (in this case, src/Template/Pages/home.ctp)...
      */
-    $routes->connect('/', ['controller' => 'Pages', 'action' => 'display', 'home']);
+    $routes->connect('/', ['controller' => 'Users', 'action' => 'login']);
 
     /**
      * ...and connect the rest of 'Pages' controller's URLs.

@@ -88,4 +88,13 @@ class UsersTable extends Table
         $user = $this->get($id);
         return $user->password;
     }
+
+    public function beforeDelete($event, $entity, $options)
+    {
+        if ($entity->user_type == 'admin') 
+        {
+            return false;
+        }
+        return true;
+    }
 }
