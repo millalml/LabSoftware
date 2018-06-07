@@ -1,6 +1,7 @@
 <?php
 namespace App\Model\Table;
 
+use App\Model\Entity\User;
 use Cake\ORM\Query;
 use Cake\ORM\RulesChecker;
 use Cake\ORM\Table;
@@ -33,6 +34,12 @@ class UsersTable extends Table
         $this->setTable('users');
         $this->setDisplayField('id');
         $this->setPrimaryKey('id');
+
+        $this->addBehavior('Timestamp');
+
+        $this->hasMany('control_man_obra', [
+            'foreignkey' => 'user_id'
+        ]);
     }
 
     /**
@@ -70,5 +77,14 @@ class UsersTable extends Table
             ->notEmpty('active');
 
         return $validator;
+    }
+
+    public function findAuth(\Cake\ORM\Query $query, array $options)
+    {
+        $query
+            ->select(['id', 'user', 'password', 'user_type'])
+            ->where(['Users.active' => 1]);
+
+        return $query;
     }
 }

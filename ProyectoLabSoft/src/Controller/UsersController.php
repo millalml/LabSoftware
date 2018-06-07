@@ -10,6 +10,27 @@ use App\Controller\AppController;
 class UsersController extends AppController
 {
 	
+	public function isAuthorized($user)
+	{
+		if(isset($user['user_type']) and $user['user_type'] === 'user_puli')
+		{
+			if(in_array($this->request->action, ['home', 'view', 'logout']))
+			{
+				return true;
+			}
+		}
+
+		if(isset($user['user_type']) and $user['user_type'] === 'user_produc')
+		{
+			if(in_array($this->request->action, ['home', 'view', 'logout']))
+			{
+				return true;
+			}
+		}
+
+		return parent::isAuthorized($user);
+	}
+
 	public function login()
 	{
 		if($this->request->is('post'))
@@ -43,10 +64,10 @@ class UsersController extends AppController
 		$this->set('users', $users);
 	}
 
-	public function view()
+	public function view($id)
 	{
-		echo "Detalle de usuarios";
-		exit();
+		$user = $this->Users->get($id);
+		$this->set('user', $user);
 	}
 
 	public function add()

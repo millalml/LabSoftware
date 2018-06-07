@@ -1,1 +1,1 @@
-<h2> BIENVENIDO!! </h2>
+<h2> BIENVENIDO <?= $this->Html->link($current_user['user'], ['controller' => 'Users', 'action' => 'view', $current_user['id']]) ?></h2>

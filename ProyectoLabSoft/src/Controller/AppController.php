@@ -50,7 +50,8 @@ class AppController extends Controller
                     'fields' => [
                         'username' => 'user',
                         'password' => 'password'
-                    ]
+                    ],
+                    'finder' => 'auth'
                 ]
             ],
             'loginAction' => [
@@ -65,7 +66,8 @@ class AppController extends Controller
             'logoutRedirect' => [
                 'controller' => 'Users',
                 'action' => 'login'
-            ]
+            ],
+            'unauthorizedRedirect' => $this->referer()
         ]);
 
         /*
@@ -76,8 +78,18 @@ class AppController extends Controller
         //$this->loadComponent('Csrf');
     }
 
+    public function beforeFilter(Event $event)
+    {
+        $this->set('current_user', $this->Auth->user());
+    }
+
     public function isAuthorized($user)
     {
-        return true;
+        if(isset($user['user_type']) and $user['user_type'] === 'admin')
+        {
+            return true;
+        }
+
+        return false;
     }
 }
