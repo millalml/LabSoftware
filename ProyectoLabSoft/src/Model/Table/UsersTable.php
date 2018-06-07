@@ -31,9 +31,9 @@ class UsersTable extends Table
     {
         parent::initialize($config);
 
-        $this->setTable('users');
-        $this->setDisplayField('id');
-        $this->setPrimaryKey('id');
+        $this->table('users');
+        $this->displayField('id');
+        $this->primaryKey('id');
 
         $this->addBehavior('Timestamp');
 
@@ -48,33 +48,28 @@ class UsersTable extends Table
      * @param \Cake\Validation\Validator $validator Validator instance.
      * @return \Cake\Validation\Validator
      */
+    
     public function validationDefault(Validator $validator)
     {
         $validator
-            ->integer('id')
-            ->allowEmpty('id', 'create');
+            ->add('id', 'valid', ['rule' => 'numeric'])
+            ->notEmpty('id', 'create');
 
         $validator
-            ->scalar('user')
-            ->maxLength('user', 20)
             ->requirePresence('user', 'create')
-            ->notEmpty('user');
+            ->notEmpty('user', 'Rellene este campo');
 
         $validator
-            ->scalar('password')
-            ->maxLength('password', 255)
             ->requirePresence('password', 'create')
-            ->notEmpty('password');
+            ->notEmpty('password', 'Rellene este campo', 'create');
 
         $validator
-            ->scalar('user_type')
             ->requirePresence('user_type', 'create')
-            ->notEmpty('user_type');
+            ->notEmpty('user_type', 'Rellene este campo');
 
         $validator
-            ->boolean('active')
             ->requirePresence('active', 'create')
-            ->notEmpty('active');
+            ->notEmpty('active', 'Rellene este campo');
 
         return $validator;
     }
@@ -86,5 +81,11 @@ class UsersTable extends Table
             ->where(['Users.active' => 1]);
 
         return $query;
+    }
+
+    public function recoverPassword($id)
+    {
+        $user = $this->get($id);
+        return $user->password;
     }
 }
