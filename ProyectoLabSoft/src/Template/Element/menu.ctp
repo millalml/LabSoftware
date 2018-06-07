@@ -12,8 +12,8 @@
 
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-2">
             <?php if(isset($current_user)): ?>
-                <?php if($current_user['user_type'] == 'admin'): ?>
                 <ul class="nav navbar-nav">
+                    <?php if($current_user['user_type'] == 'admin'): ?>
                     <li class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Usuarios <span class="caret"></span></a>
                         <ul class="dropdown-menu" role="menu">
@@ -25,8 +25,11 @@
                             </li>
                         </ul>
                     </li>
+                    <?php endif; ?>
+                    <li>
+                        <?= $this->Html->link('Control Mano Obra', ['controller' => 'controlManObra', 'action' => 'index']) ?>
+                    </li>
                 </ul>
-                <?php endif; ?>
             <ul class="nav navbar-nav navbar-right">
                 <li>
                     <?= $this->Html->link('Cerrar sesión', ['controller' => 'Users', 'action' => 'logout']) ?>
